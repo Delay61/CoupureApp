@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="30dp">
+
+    <!-- Carte Google Maps -->
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Filtres -->
+    <LinearLayout
+        android:id="@+id/filterContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:padding="10dp"
+        android:background="#AAFFFFFF">
+
+        <Button
+            android:id="@+id/btnFiltrerDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filtrer par date" />
+
+        <Button
+            android:id="@+id/btnFiltrerZone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Filtrer par zone"
+            android:layout_marginStart="10dp"/>
+
+        <!-- Bouton Retour à l'accueil -->
+        <Button
+            android:id="@+id/btnbackmenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Retour"
+            android:layout_marginStart="10dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "529783652123",
+    "project_id": "coupureapp-6eb50",
+    "storage_bucket": "coupureapp-6eb50.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529783652123:android:4a957f123cf9aee88cddbe",
+        "android_client_info": {
+          "package_name": "com.example.coupureapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIaxFw2VF-LmtZuXXGLW9QZXY2nBOHJ58"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

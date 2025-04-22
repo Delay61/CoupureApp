@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.coupureapp">
+
+    <!-- 🔐 Permissions -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <!-- Permissions for API level 23 and above for storage -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="29"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.CoupureApp">
+
+        <!-- 🟢 Écran de démarrage -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 👤 Authentification -->
+        <activity android:name=".LoginActivity" android:exported="false" />
+        <activity android:name=".RegisterActivity" android:exported="false" />
+
+        <!-- 🏠 Tableau de bord -->
+        <activity android:name=".MainActivity" android:exported="false" />
+
+        <!-- 📍 Signalement de coupure -->
+        <activity android:name=".SignalementActivity" android:exported="false" />
+
+        <!-- 🗓️ Historique -->
+        <activity android:name=".HistoriqueActivity" android:exported="false" />
+
+        <!-- 🗺️ Carte Google Maps -->
+        <activity android:name=".CarteActivity" android:exported="true" />
+
+        <!-- 👤 Profil utilisateur -->
+        <activity android:name=".ProfilActivity" android:exported="false" />
+        <activity android:name=".ModifierProfilActivity" android:exported="false" />
+
+        <!-- ⚙️ Paramètres -->
+        <activity android:name=".ParametresActivity" android:exported="false" />
+
+        <!-- ℹ️ À propos -->
+        <activity android:name=".AproposActivity" android:exported="false" />
+
+        <!-- 🔔 Notifications Firebase -->
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- 🗺️ Clé API Google Maps -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA4vKa-a5U-Lv1tZpCfr9da8zJeNAVIk7s" />
+    </application>
+
+</manifest>
