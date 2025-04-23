@@ -46,7 +46,7 @@ public class ProfilActivity extends AppCompatActivity {
             userId = user.getUid();
             textUID.setText("ID utilisateur : " + userId);
 
-            // 🔄 Chargement des données depuis Firestore
+            // Chargement des données depuis Firestore
             db.collection("utilisateurs").document(userId).get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
@@ -70,13 +70,13 @@ public class ProfilActivity extends AppCompatActivity {
             return;
         }
 
-        // 🏠 Accueil
+        //Accueil
         btnAccueil.setOnClickListener(v -> {
             startActivity(new Intent(ProfilActivity.this, MainActivity.class));
             finish();
         });
 
-        // 🔒 Réinitialisation du mot de passe
+        // Réinitialisation du mot de passe
         btnChangerMdp.setOnClickListener(v -> {
             String email = user.getEmail();
             if (email != null && !email.isEmpty()) {
@@ -88,7 +88,7 @@ public class ProfilActivity extends AppCompatActivity {
             }
         });
 
-        // 🗑️ Supprimer compte
+        //Supprimer compte
         btnSupprimer.setOnClickListener(v -> {
             db.collection("utilisateurs").document(userId).delete()
                     .addOnSuccessListener(unused -> {
@@ -101,13 +101,13 @@ public class ProfilActivity extends AppCompatActivity {
                     .addOnFailureListener(e -> Toast.makeText(this, "Erreur suppression Firestore : " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
 
-        // ✏️ Modifier les infos
+        //Modifier les infos
         btnModifier.setOnClickListener(v -> {
             startActivity(new Intent(ProfilActivity.this, ModifierProfilActivity.class));
         });
     }
 
-    // 🔐 Empêche les null ou objets non String
+    //Empêche les null ou objets non String
     private String safeValue(Object val) {
         return val != null ? val.toString() : "N/A";
     }
