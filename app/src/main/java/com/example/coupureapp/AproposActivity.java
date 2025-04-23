@@ -22,7 +22,7 @@ public class AproposActivity extends AppCompatActivity {
         // Lien email vers le développeur
         txtContact.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_SENDTO);
-            intent.setData(Uri.parse("mailto:tonemail@exemple.com")); // ✅ Mets ici ton adresse mail
+            intent.setData(Uri.parse("mailto:tonemail@exemple.com")); // Mets ici ton adresse mail
             intent.putExtra(Intent.EXTRA_SUBJECT, "Contact via l'application CoupureApp");
             startActivity(Intent.createChooser(intent, "Envoyer un e-mail"));
         });
@@ -30,7 +30,7 @@ public class AproposActivity extends AppCompatActivity {
         // Lien vers un formulaire Google Forms ou autre
         txtBug.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse("https://forms.gle/tonFormulaire")); // ✅ Mets ici ton vrai lien
+            intent.setData(Uri.parse("https://forms.gle/tonFormulaire")); // Mets ici ton vrai lien
             startActivity(intent);
         });
 
