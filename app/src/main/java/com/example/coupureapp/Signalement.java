@@ -12,7 +12,7 @@ public class Signalement {
     public Signalement() {
     }
 
-    // ✅ Constructeur avec tous les paramètres
+    //Constructeur avec tous les paramètres
     public Signalement(String description, String date, String localisation, String imagePath, String type) {
         this.description = description;
         this.date = date;
@@ -21,7 +21,7 @@ public class Signalement {
         this.type = type;
     }
 
-    // ✅ Getters
+    // Getters
     public String getId() {
         return id;
     }
@@ -46,7 +46,7 @@ public class Signalement {
         return type;
     }
 
-    // ✅ Setters
+    //Setters
     public void setId(String id) {
         this.id = id;
     }
