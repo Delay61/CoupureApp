@@ -8,7 +8,7 @@ public class Signalement {
     private String imagePath;
     private String type; // Ajout du champ type
 
-    // 🔧 Constructeur vide requis par Firestore
+    //Constructeur vide requis par Firestore
     public Signalement() {
     }
 
