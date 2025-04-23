@@ -3,8 +3,6 @@ package com.example.coupureapp;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,7 +23,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -37,6 +34,7 @@ public class SignalementActivity extends AppCompatActivity {
     TextView locationTextView;
     ProgressBar progressBar;
     ImageView imagePreview;
+    Spinner typeSpinner;
 
     FusedLocationProviderClient fusedLocationClient;
     String localisation = "Inconnue";
@@ -51,6 +49,7 @@ public class SignalementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signalement);
 
+        // Initialisation des vues
         descriptionEditText = findViewById(R.id.descriptionEditText);
         latitudeEditText = findViewById(R.id.latitudeEditText);
         longitudeEditText = findViewById(R.id.longitudeEditText);
@@ -61,6 +60,7 @@ public class SignalementActivity extends AppCompatActivity {
         locationTextView = findViewById(R.id.locationTextView);
         progressBar = findViewById(R.id.progressBar);
         imagePreview = findViewById(R.id.imagePreview);
+        typeSpinner = findViewById(R.id.typeSpinner);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -76,17 +76,17 @@ public class SignalementActivity extends AppCompatActivity {
 
         sendButton.setOnClickListener(v -> {
             String description = descriptionEditText.getText().toString().trim();
+            String type = typeSpinner.getSelectedItem().toString();
             if (description.isEmpty()) {
                 Toast.makeText(this, "Veuillez entrer une description.", Toast.LENGTH_SHORT).show();
                 return;
             }
             progressBar.setVisibility(View.VISIBLE);
-            obtenirLocalisationEtEnregistrer(description);
+            obtenirLocalisationEtEnregistrer(description, type);
         });
 
         returnToMainButton.setOnClickListener(v -> {
-            Intent intent = new Intent(SignalementActivity.this, MainActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(SignalementActivity.this, MainActivity.class));
             finish();
         });
     }
@@ -126,65 +126,41 @@ public class SignalementActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && imageUri != null) {
             imagePreview.setImageURI(imageUri);
             imagePreview.setVisibility(View.VISIBLE);
-            imagePath = imageUri.getPath(); // déjà au bon format
+            imagePath = imageUri.getPath();
         }
     }
 
-    private String enregistrerImageLocalement(Bitmap bitmap) {
-        File folder = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "CoupureApp");
-        if (!folder.exists()) folder.mkdirs();
-
-        String fileName = "img_" + System.currentTimeMillis() + ".jpg";
-        File file = new File(folder, fileName);
-
-        try (FileOutputStream out = new FileOutputStream(file)) {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            return file.getAbsolutePath();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private void enregistrerSignalement(String description) {
+    private void enregistrerSignalement(String description, String type) {
         String date = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
         if (imagePath != null) {
             Uri fileUri = Uri.fromFile(new File(imagePath));
             StorageReference storageRef = FirebaseStorage.getInstance().getReference()
                     .child("images/" + fileUri.getLastPathSegment());
 
-            UploadTask uploadTask = storageRef.putFile(fileUri);
-            uploadTask.addOnSuccessListener(taskSnapshot -> {
+            storageRef.putFile(fileUri).addOnSuccessListener(taskSnapshot -> {
                 storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                    String imageUrl = uri.toString();
-                    enregistrerDansFirestore(description, localisation, date, imageUrl);
+                    enregistrerDansFirestore(description, localisation, date, uri.toString(), type);
                 });
             }).addOnFailureListener(e -> {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(this, "Erreur upload image", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Erreur lors de l’upload de l’image", Toast.LENGTH_SHORT).show();
             });
         } else {
-            enregistrerDansFirestore(description, localisation, date, null);
+            enregistrerDansFirestore(description, localisation, date, null, type);
         }
     }
 
-    private void enregistrerDansFirestore(String description, String localisation, String date, String imageUrl) {
+    private void enregistrerDansFirestore(String description, String localisation, String date, String imageUrl, String type) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        Signalement signalement = new Signalement(description, date, localisation, imageUrl);
+        Signalement signalement = new Signalement(description, date, localisation, imageUrl, type);
 
         firestore.collection("signalements")
                 .add(signalement)
                 .addOnSuccessListener(documentReference -> {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(this, "Signalement enregistré", Toast.LENGTH_SHORT).show();
-                    descriptionEditText.setText("");
-                    latitudeEditText.setText("");
-                    longitudeEditText.setText("");
-                    locationTextView.setText("Localisation : inconnue");
-                    imagePreview.setVisibility(View.GONE);
-                    imagePath = null;
+                    resetForm();
                 })
                 .addOnFailureListener(e -> {
                     progressBar.setVisibility(View.GONE);
@@ -211,13 +187,13 @@ public class SignalementActivity extends AppCompatActivity {
                 });
     }
 
-    private void obtenirLocalisationEtEnregistrer(String description) {
+    private void obtenirLocalisationEtEnregistrer(String description, String type) {
         String latStr = latitudeEditText.getText().toString().trim();
         String lngStr = longitudeEditText.getText().toString().trim();
 
         if (!latStr.isEmpty() && !lngStr.isEmpty()) {
             localisation = latStr + ", " + lngStr;
-            enregistrerSignalement(description);
+            enregistrerSignalement(description, type);
             return;
         }
 
@@ -231,8 +207,18 @@ public class SignalementActivity extends AppCompatActivity {
                     if (location != null) {
                         localisation = location.getLatitude() + ", " + location.getLongitude();
                     }
-                    enregistrerSignalement(description);
+                    enregistrerSignalement(description, type);
                 });
+    }
+
+    private void resetForm() {
+        descriptionEditText.setText("");
+        latitudeEditText.setText("");
+        longitudeEditText.setText("");
+        locationTextView.setText("Localisation : inconnue");
+        imagePreview.setVisibility(View.GONE);
+        imagePath = null;
+        typeSpinner.setSelection(0);
     }
 
     @Override

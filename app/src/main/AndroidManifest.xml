@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.coupureapp">
+    <!-- Indique que l’appli peut utiliser la caméra, mais ne l’exige pas (elle fonctionnera sur les appareils sans caméra). -->
 
     <!-- 🔐 Permissions -->
     <uses-feature

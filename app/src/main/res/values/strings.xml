@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CoupureApp</string>
+
+    <!-- Types de signalements pour le Spinner -->
+    <string-array name="types_array">
+        <item>Signalée</item>
+        <item>Planifiée</item>
+        <item>Résolue</item>
+    </string-array>
 </resources>

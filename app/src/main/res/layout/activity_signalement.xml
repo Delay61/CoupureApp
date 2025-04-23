@@ -7,78 +7,99 @@
         android:padding="16dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="200dp">
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/descriptionEditText"
-            android:hint="Décrire la coupure"
-            android:inputType="textMultiLine"
-            android:minLines="3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/locationButton"
-            android:text="Ajouter la localisation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/locationTextView"
-            android:text="Localisation : inconnue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp" />
+            android:hint="Description de la coupure"
+            android:inputType="textMultiLine"
+            android:minLines="3"
+            android:minHeight="48dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Type de signalement"
+            android:layout_marginTop="12dp" />
+
+        <Spinner
+            android:id="@+id/typeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:entries="@array/types_array"
+            android:layout_marginBottom="12dp" />
+
         <EditText
             android:id="@+id/latitudeEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Latitude (optionnel)"
-            android:inputType="numberDecimal" />
+            android:layout_height="48dp"
+            android:hint="Latitude"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="12dp" />
 
         <EditText
             android:id="@+id/longitudeEditText"
             android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Longitude"
+            android:inputType="numberDecimal"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/locationButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Obtenir localisation"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/locationTextView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Longitude (optionnel)"
-            android:inputType="numberDecimal" />
+            android:text="Localisation : inconnue"
+            android:paddingTop="8dp"
+            android:layout_marginBottom="12dp" />
 
         <Button
             android:id="@+id/captureImageButton"
-            android:text="Prendre une photo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="48dp"
+            android:text="Capturer une image"
+            android:layout_marginBottom="8dp" />
 
         <ImageView
             android:id="@+id/imagePreview"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
+            android:visibility="gone"
             android:layout_marginTop="8dp"
-            android:visibility="gone" />
+            android:layout_marginBottom="8dp" />
 
         <ProgressBar
             android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp" />
+            android:layout_marginBottom="12dp" />
 
         <Button
             android:id="@+id/sendButton"
-            android:text="Envoyer le signalement"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:layout_height="48dp"
+            android:text="Envoyer le signalement"
+            android:layout_marginBottom="8dp" />
 
-        <!-- Nouveau bouton pour revenir à MainActivity -->
         <Button
             android:id="@+id/returnToMainButton"
-            android:text="Retour à l'Accueil"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:layout_height="48dp"
+            android:text="Retour au menu principal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="12dp" />
+
     </LinearLayout>
 </ScrollView>

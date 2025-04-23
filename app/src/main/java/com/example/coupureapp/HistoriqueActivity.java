@@ -72,9 +72,10 @@ public class HistoriqueActivity extends AppCompatActivity {
                         String date = doc.getString("date");
                         String localisation = doc.getString("localisation");
                         String imagePath = doc.getString("imageUrl");
+                        String type = doc.getString("type"); // ✅ Ajout du type
 
                         if (description != null && date != null && localisation != null) {
-                            Signalement signalement = new Signalement(description, date, localisation, imagePath);
+                            Signalement signalement = new Signalement(description, date, localisation, imagePath, type);
                             signalementList.add(signalement);
 
                             if (estDansLeMoisActuel(date)) {
@@ -86,9 +87,7 @@ public class HistoriqueActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     statsTextView.setText("⏱ Temps sans courant ce mois : " + totalHeures + " h");
                 })
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "❌ Erreur de récupération : " + e.getMessage(), Toast.LENGTH_SHORT).show()
-                );
+                .addOnFailureListener(e -> Toast.makeText(this, "❌ Erreur de récupération : " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private boolean estDansLeMoisActuel(String date) {
@@ -99,8 +98,7 @@ public class HistoriqueActivity extends AppCompatActivity {
             int annee = Integer.parseInt(parts[2]);
 
             Calendar maintenant = Calendar.getInstance();
-            return (mois == maintenant.get(Calendar.MONTH) + 1) &&
-                    (annee == maintenant.get(Calendar.YEAR));
+            return (mois == maintenant.get(Calendar.MONTH) + 1) && (annee == maintenant.get(Calendar.YEAR));
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -138,12 +136,13 @@ public class HistoriqueActivity extends AppCompatActivity {
 
             canvas.drawText("• " + s.getDescription(), 40, y, paint); y += 20;
             canvas.drawText("  📅 " + s.getDate(), 60, y, paint); y += 20;
-            canvas.drawText("  📍 " + s.getLocalisation(), 60, y, paint); y += 30;
+            canvas.drawText("  📍 " + s.getLocalisation(), 60, y, paint); y += 20;
+            canvas.drawText("  🔌 Type : " + s.getType(), 60, y, paint); y += 30;
         }
 
         document.finishPage(page);
 
-        // ✅ Sauvegarder dans Download
+        // Sauvegarder dans Download
         File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         File pdfFile = new File(downloadsDir, "historique_coupures.pdf");
 
@@ -165,18 +164,19 @@ public class HistoriqueActivity extends AppCompatActivity {
             return;
         }
 
-        // ✅ Sauvegarder dans Download
+        // Sauvegarder dans Download
         File downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         File csvFile = new File(downloadsDir, "historique_coupures.csv");
 
         try {
             FileWriter writer = new FileWriter(csvFile);
-            writer.append("Description,Date,Localisation\n");
+            writer.append("Description,Date,Localisation,Type\n");
 
             for (Signalement s : signalementList) {
                 writer.append(s.getDescription()).append(",");
                 writer.append(s.getDate()).append(",");
-                writer.append(s.getLocalisation()).append("\n");
+                writer.append(s.getLocalisation()).append(",");
+                writer.append(s.getType()).append("\n");
             }
 
             writer.flush();
@@ -188,4 +188,3 @@ public class HistoriqueActivity extends AppCompatActivity {
         }
     }
 }
-
