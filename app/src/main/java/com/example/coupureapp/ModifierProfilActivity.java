@@ -59,7 +59,7 @@ public class ModifierProfilActivity extends AppCompatActivity {
         updates.put("telephone", telephone);
         updates.put("zone", zone);
 
-        // ✅ Utilise .set() avec SetOptions.merge() pour créer ou mettre à jour
+        // Utilise .set() avec SetOptions.merge() pour créer ou mettre à jour
         db.collection("utilisateurs").document(userId)
                 .set(updates, com.google.firebase.firestore.SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
