@@ -72,7 +72,7 @@ public class HistoriqueActivity extends AppCompatActivity {
                         String date = doc.getString("date");
                         String localisation = doc.getString("localisation");
                         String imagePath = doc.getString("imageUrl");
-                        String type = doc.getString("type"); // ✅ Ajout du type
+                        String type = doc.getString("type"); // Ajout du type
 
                         if (description != null && date != null && localisation != null) {
                             Signalement signalement = new Signalement(description, date, localisation, imagePath, type);
@@ -87,7 +87,7 @@ public class HistoriqueActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                     statsTextView.setText("⏱ Temps sans courant ce mois : " + totalHeures + " h");
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "❌ Erreur de récupération : " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(this, "Erreur de récupération : " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private boolean estDansLeMoisActuel(String date) {
@@ -151,10 +151,10 @@ public class HistoriqueActivity extends AppCompatActivity {
             document.writeTo(fos);
             document.close();
             fos.close();
-            Toast.makeText(this, "✅ PDF exporté dans : " + pdfFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "PDF exporté dans : " + pdfFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, "❌ Erreur PDF : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Erreur PDF : " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -181,10 +181,10 @@ public class HistoriqueActivity extends AppCompatActivity {
 
             writer.flush();
             writer.close();
-            Toast.makeText(this, "✅ CSV exporté dans : " + csvFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "CSV exporté dans : " + csvFile.getAbsolutePath(), Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, "❌ Erreur CSV : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Erreur CSV : " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }
